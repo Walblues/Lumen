@@ -37,7 +37,7 @@ public class CubeController : MonoBehaviour
 
     public void turnOff()
     {
-        isLit = true;
+        isLit = false;
         updateMaterial();
     }
 
