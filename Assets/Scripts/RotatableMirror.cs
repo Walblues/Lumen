@@ -12,8 +12,6 @@ public class RotatableMirror : MonoBehaviour
     public float angleStep = 45f;
     [Tooltip("How fast the mirror visually animates to the target angle.")]
     public float rotationSpeed = 8f;
-    [Tooltip("Local axis the mirror rotates around.")]
-    public Vector3 rotationAxis = Vector3.up;
 
     private Quaternion initialLocalRotation;
     private float targetAngle = 0f;
@@ -27,7 +25,7 @@ public class RotatableMirror : MonoBehaviour
     void Update()
     {
         currentAngle = Mathf.LerpAngle(currentAngle, targetAngle, Time.deltaTime * rotationSpeed);
-        transform.localRotation = initialLocalRotation * Quaternion.AngleAxis(currentAngle, rotationAxis);
+        transform.localRotation = initialLocalRotation * Quaternion.AngleAxis(currentAngle, Vector3.up);
     }
 
     // Wire to XRI "Select Entered" or a poke button's Unity Event.

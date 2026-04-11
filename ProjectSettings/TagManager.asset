@@ -9,6 +9,8 @@ TagManager:
   - Destroyer
   - MiniWorldCamera
   - Water
+  - Mirror
+  - ColorFilter
   layers:
   - Default
   - TransparentFX

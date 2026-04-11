@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 // Place on the emitter cylinder. Assign a BeamSegment prefab.
-// Beams reflect off objects tagged "Mirror" and activate any LightReceiver they terminate on.
+// Beams reflect off objects tagged "Mirror", pass through matching ColorFilters,
+// and activate any LightReceiver they terminate on.
 public class LightEmitter : MonoBehaviour
 {
     [Header("Beam Settings")]
@@ -16,12 +17,25 @@ public class LightEmitter : MonoBehaviour
              "so keep this as (0,1,0) and aim the top of the cylinder at your first mirror.")]
     public Vector3 emissionAxis = Vector3.up;
 
+    [Header("Color")]
+    [Tooltip("Logical color identifier (e.g. 'red', 'blue', 'orange'). " +
+             "Must match the Allowed Color Tag on any ColorFilter this beam should pass through.")]
+    public string colorTag = "white";
+    [Tooltip("Visual tint applied to all beam segments.")]
+    public Color beamColor = Color.white;
+
     private List<GameObject> activeBeams = new List<GameObject>();
     private int currentBeamIndex;
+    private MaterialPropertyBlock propBlock;
 
     // Swap buffers to track receiver activation changes without per-frame allocation
     private HashSet<LightReceiver> hitThisFrame = new HashSet<LightReceiver>();
     private HashSet<LightReceiver> hitLastFrame = new HashSet<LightReceiver>();
+
+    void Awake()
+    {
+        propBlock = new MaterialPropertyBlock();
+    }
 
     // LateUpdate ensures XRI has already applied any tracked/grabbed transform changes
     // before we read the emitter's position and rotation this frame.
@@ -54,12 +68,19 @@ public class LightEmitter : MonoBehaviour
 
     void ShootLaser()
     {
-        // Convert the local emission axis to world space so rotation is always respected.
         Vector3 direction = transform.TransformDirection(emissionAxis).normalized;
         Vector3 position = transform.position + direction * startOffset;
 
-        for (int i = 0; i <= maxReflections; i++)
+        // Glass pass-throughs don't count as reflections, so track them separately.
+        // The safety cap on total iterations prevents any edge-case infinite loops.
+        int reflections = 0;
+        int iterations = 0;
+        int maxIterations = (maxReflections + 1) * 2;
+
+        while (reflections <= maxReflections && iterations < maxIterations)
         {
+            iterations++;
+
             if (!Physics.Raycast(position, direction, out RaycastHit hit, maxDistance))
             {
                 CreateBeamSegment(position, direction, maxDistance);
@@ -71,7 +92,23 @@ public class LightEmitter : MonoBehaviour
             if (hit.collider.CompareTag("Mirror"))
             {
                 direction = Vector3.Reflect(direction, hit.normal);
-                position = hit.point + direction * 0.01f; // prevent self-hit
+                position = hit.point + direction * 0.01f;
+                reflections++;
+            }
+            else if (hit.collider.CompareTag("ColorFilter"))
+            {
+                var glass = hit.collider.GetComponent<ColorFilter>();
+                if (glass != null && glass.allowedColorTag == colorTag)
+                {
+                    // Matching color — beam passes through, continuing in the same direction.
+                    position = hit.point + direction * 0.02f;
+                    // Intentionally no reflections++ — passing glass is free.
+                }
+                else
+                {
+                    // Wrong color — beam is absorbed by the glass.
+                    break;
+                }
             }
             else
             {
@@ -103,9 +140,20 @@ public class LightEmitter : MonoBehaviour
 
         currentBeamIndex++;
 
-        // Position at midpoint; scale Y to match length (capsule mesh elongated along Y)
         beam.transform.position = start + direction * (length / 2f);
         beam.transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(90f, 0f, 0f);
         beam.transform.localScale = new Vector3(0.05f, length / 2f, 0.05f);
+
+        // Tint the beam segment to match this emitter's color.
+        // Both _BaseColor (URP standard) and _Color (legacy/custom shaders) are set
+        // so the color applies regardless of which property name the shader uses.
+        var rend = beam.GetComponent<Renderer>();
+        if (rend != null)
+        {
+            propBlock.SetColor("_BaseColor", beamColor);
+            propBlock.SetColor("_Color", beamColor);
+            propBlock.SetColor("_EmissionColor", beamColor);
+            rend.SetPropertyBlock(propBlock);
+        }
     }
 }
