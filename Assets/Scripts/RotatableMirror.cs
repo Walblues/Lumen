@@ -12,6 +12,10 @@ public class RotatableMirror : MonoBehaviour
     public float angleStep = 45f;
     [Tooltip("How fast the mirror visually animates to the target angle.")]
     public float rotationSpeed = 8f;
+    [Header("Rotation")]
+    
+    [Tooltip("Uncheck to lock the mirror in place — RotateCW and RotateCCW will do nothing.")]
+    public bool canRotate = true;
 
     private Quaternion initialLocalRotation;
     private float targetAngle = 0f;
@@ -28,15 +32,18 @@ public class RotatableMirror : MonoBehaviour
         transform.localRotation = initialLocalRotation * Quaternion.AngleAxis(currentAngle, Vector3.up);
     }
 
+
     // Wire to XRI "Select Entered" or a poke button's Unity Event.
     public void RotateCW()
     {
+        if (!canRotate) return;
         targetAngle -= angleStep;
         NormalizeAngle();
     }
 
     public void RotateCCW()
     {
+        if (!canRotate) return;
         targetAngle += angleStep;
         NormalizeAngle();
     }

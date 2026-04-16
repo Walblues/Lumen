@@ -24,6 +24,11 @@ public class LightEmitter : MonoBehaviour
     [Tooltip("Visual tint applied to all beam segments.")]
     public Color beamColor = Color.white;
 
+    [Header("State")]
+    [Tooltip("Set to false to silence this emitter (e.g. via LightCombiner). " +
+             "All downstream receivers are automatically deactivated.")]
+    public bool isActive = true;
+
     private List<GameObject> activeBeams = new List<GameObject>();
     private int currentBeamIndex;
     private MaterialPropertyBlock propBlock;
@@ -44,17 +49,20 @@ public class LightEmitter : MonoBehaviour
         currentBeamIndex = 0;
         hitThisFrame.Clear();
 
-        ShootLaser();
+        // Only shoot when active. When inactive, hitThisFrame stays empty so the
+        // swap-buffer below automatically deactivates all previously-hit receivers.
+        if (isActive)
+            ShootLaser();
 
         // Deactivate receivers the beam no longer reaches
         foreach (var receiver in hitLastFrame)
             if (!hitThisFrame.Contains(receiver))
                 receiver.SetActivated(false);
 
-        // Activate newly hit receivers
+        // Update all currently-hit receivers with this frame's color (handles both
+        // first activation and mid-flight color changes from LightCombiner).
         foreach (var receiver in hitThisFrame)
-            if (!hitLastFrame.Contains(receiver))
-                receiver.SetActivated(true);
+            receiver.SetActivated(true, colorTag, beamColor);
 
         // Swap buffers
         var temp = hitLastFrame;
@@ -83,20 +91,14 @@ public class LightEmitter : MonoBehaviour
 
             if (!Physics.Raycast(position, direction, out RaycastHit hit, maxDistance))
             {
-                Debug.Log($"[Beam] No hit → End at position {position}");
-
                 CreateBeamSegment(position, direction, maxDistance);
                 break;
             }
-
-            Debug.Log($"[Beam HIT] Object: {hit.collider.name} | Tag: {hit.collider.tag} | Point: {hit.point} | Distance: {hit.distance}");
 
             CreateBeamSegment(position, direction, hit.distance);
 
             if (hit.collider.CompareTag("Mirror"))
             {
-                Debug.Log($"[Beam] Mirror reflection at {hit.point}");
-
                 direction = Vector3.Reflect(direction, hit.normal);
                 position = hit.point + direction * 0.01f;
                 reflections++;
@@ -106,16 +108,13 @@ public class LightEmitter : MonoBehaviour
                 var glass = hit.collider.GetComponent<ColorFilter>();
                 if (glass != null && glass.allowedColorTag == colorTag)
                 {
-                    Debug.Log($"[Beam] ColorFilter PASS at {hit.point} (color match: {colorTag})");
-
                     // Matching color — beam passes through, continuing in the same direction.
                     position = hit.point + direction * 0.02f;
-                    // Intentionally no reflections++ — passing glass is free.
+                    // Intentionally no reflections++ — passing a filter is free.
                 }
                 else
                 {
-                    Debug.Log($"[Beam] ColorFilter BLOCK at {hit.point} (required: {glass?.allowedColorTag}, beam: {colorTag})");
-                    // Wrong color — beam is absorbed by the glass.
+                    // Wrong color — beam is absorbed by the filter.
                     break;
                 }
             }
@@ -144,6 +143,10 @@ public class LightEmitter : MonoBehaviour
             // Layer 2 = "Ignore Raycast" — prevents beam segment colliders from
             // blocking their own raycasts and causing the receiver to flicker.
             beam.layer = 2;
+            // Disable the collider so the player can walk through the beam.
+            // Beam segments are purely visual and need no physics presence.
+            var col = beam.GetComponent<Collider>();
+            if (col != null) col.enabled = false;
             activeBeams.Add(beam);
         }
 
