@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -19,21 +18,30 @@ public class DoorSceneTransition : MonoBehaviour
     public float soundVolume = 1f;
 
     [Header("Fade")]
-    public Image fadeImage;
+    public Renderer fadeQuad; // Drag your FadeQuad here
     public float fadeDuration = 1.5f;
 
     [Header("Scene")]
 #if UNITY_EDITOR
-    public SceneAsset sceneAsset; // Drag your scene file here in the Inspector
+    public SceneAsset sceneAsset;
     private void OnValidate()
     {
         if (sceneAsset != null)
             sceneToLoad = sceneAsset.name;
     }
 #endif
-    [HideInInspector] public string sceneToLoad; // Auto-populated from sceneAsset
+    [HideInInspector] public string sceneToLoad;
 
     private bool hasTriggered = false;
+    private Material fadeMaterial;
+
+    void Start()
+    {
+        // Get a local instance of the material so we don't affect other objects
+        fadeMaterial = fadeQuad.material;
+        SetFadeAlpha(0f);
+        fadeQuad.gameObject.SetActive(false);
+    }
 
     public void OnDoorInteract()
     {
@@ -79,21 +87,23 @@ public class DoorSceneTransition : MonoBehaviour
 
     private IEnumerator FadeToBlack()
     {
+        fadeQuad.gameObject.SetActive(true);
         float elapsed = 0f;
-        Color color = fadeImage.color;
-        color.a = 0f;
-        fadeImage.color = color;
-        fadeImage.gameObject.SetActive(true);
 
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
-            color.a = Mathf.Clamp01(elapsed / fadeDuration);
-            fadeImage.color = color;
+            SetFadeAlpha(Mathf.Clamp01(elapsed / fadeDuration));
             yield return null;
         }
 
-        color.a = 1f;
-        fadeImage.color = color;
+        SetFadeAlpha(1f);
+    }
+
+    private void SetFadeAlpha(float alpha)
+    {
+        Color color = fadeMaterial.color;
+        color.a = alpha;
+        fadeMaterial.color = color;
     }
 }
