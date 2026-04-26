@@ -99,8 +99,28 @@ public class LightEmitter : MonoBehaviour
 
             if (hit.collider.CompareTag("Mirror"))
             {
-                direction = Vector3.Reflect(direction, hit.normal);
-                position = hit.point + direction * 0.01f;
+                Transform mirror = hit.collider.transform;
+                Vector3 normal = hit.normal;
+
+                if (Vector3.Dot(direction, normal) > 0)
+                    normal = -normal;
+
+
+                Vector3 planePoint = hit.collider.bounds.center;
+
+                float denom = Vector3.Dot(direction, normal);
+
+                if (Mathf.Abs(denom) > 0.0001f)
+                {
+                    float t = Vector3.Dot(planePoint - position, normal) / denom;
+                    Vector3 intersectionPoint = position + direction * t;
+
+                    // Reflect from that corrected intersection
+                    direction = Vector3.Reflect(direction, normal);
+
+                    position = intersectionPoint + direction * 0.01f;
+                }
+
                 reflections++;
             }
             else if (hit.collider.CompareTag("ColorFilter"))
