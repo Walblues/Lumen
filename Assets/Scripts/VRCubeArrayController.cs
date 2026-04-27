@@ -13,6 +13,7 @@ public enum ButtonType
 public class VRCubeArrayController : MonoBehaviour
 {
     public List<CubeController> cubeLights;
+    private bool solved = false;
 
     // We no longer need Awake, OnEnable, or OnDisable for InputActions!
 
@@ -35,30 +36,37 @@ public class VRCubeArrayController : MonoBehaviour
 
     private void TriggerButton(List<int> indices, ButtonType type)
     {
-        // Handle ROTATE once, not per index
-        if (type == ButtonType.ROTATE)
+        if (solved)
         {
-            Rotate();
             return;
         }
 
-        foreach (int index in indices)
+        if (type == ButtonType.ROTATE)
         {
-            switch (type)
+            Rotate();
+        }
+        else
+        {
+            foreach (int index in indices)
             {
-                case ButtonType.TOGGLE:
-                    cubeLights[index].toggle();
-                    break;
+                switch (type)
+                {
+                    case ButtonType.TOGGLE:
+                        cubeLights[index].toggle();
+                        break;
 
-                case ButtonType.ON:
-                    cubeLights[index].turnOn();
-                    break;
+                    case ButtonType.ON:
+                        cubeLights[index].turnOn();
+                        break;
 
-                case ButtonType.OFF:
-                    cubeLights[index].turnOff();
-                    break;
+                    case ButtonType.OFF:
+                        cubeLights[index].turnOff();
+                        break;
+                }
             }
         }
+
+        checkSolved();
     }
 
     public void TriggerButton1()
@@ -96,5 +104,22 @@ public class VRCubeArrayController : MonoBehaviour
         }
 
         cubeLights[0].setIsLit(lastButton);
+    }
+
+    public void checkSolved()
+    {
+        foreach (CubeController c in cubeLights)
+        {
+            if (!c.getIsLit())
+            {
+                return;
+            }
+        }
+        solved = true;
+
+        foreach (CubeController c in cubeLights)
+        {
+            c.turnGreen();
+        }
     }
 }

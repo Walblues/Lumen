@@ -9,6 +9,7 @@ public class CubeController : MonoBehaviour
 
     public Material unlitTexture;
     public Material litTexture;
+    public Material greenTexture;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,6 +28,11 @@ public class CubeController : MonoBehaviour
         {
             r.material = unlitTexture;
         }
+    }
+
+    public void turnGreen()
+    {
+        r.material = greenTexture;
     }
 
     public void turnOn()
