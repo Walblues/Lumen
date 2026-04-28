@@ -34,6 +34,8 @@ public class VRCubeArrayController : MonoBehaviour
     public List<int> trigger5Indices;
     public ButtonType trigger5Type;
 
+    public ProgressManager progressManager;
+
     private void TriggerButton(List<int> indices, ButtonType type)
     {
         if (solved)
@@ -116,6 +118,8 @@ public class VRCubeArrayController : MonoBehaviour
             }
         }
         solved = true;
+        
+        progressManager.Progress();
 
         foreach (CubeController c in cubeLights)
         {

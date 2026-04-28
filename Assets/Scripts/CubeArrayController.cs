@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System.Linq;
 
 public class CubeArrayController : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class CubeArrayController : MonoBehaviour
     private InputAction toggleAction1;
     private InputAction toggleAction2;
     private InputAction toggleAction3;
+    private bool hasTriggeredActivate = false;
+    public ProgressManager progressManager;
 
     void Awake()
     {
@@ -69,6 +72,7 @@ public class CubeArrayController : MonoBehaviour
         }
 
         cubeLights[0].setIsLit(lastButton);
+        CheckWinState();
     }
 
     private void Toggle1(InputAction.CallbackContext context)
@@ -77,6 +81,7 @@ public class CubeArrayController : MonoBehaviour
         {
             cubeLights[i].toggle();
         }
+        CheckWinState();
     }
 
     private void Toggle2(InputAction.CallbackContext context)
@@ -90,5 +95,18 @@ public class CubeArrayController : MonoBehaviour
     private void Toggle3(InputAction.CallbackContext context)
     {
         Rotate();
+        CheckWinState();
+    }
+
+    private void CheckWinState()
+    {
+        if (!cubeLights.Any(l => !l.enabled))
+        {
+            if (!hasTriggeredActivate)
+            {
+                progressManager.Progress();
+                hasTriggeredActivate = true;
+            }
+        }
     }
 }

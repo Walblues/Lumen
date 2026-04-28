@@ -8,15 +8,16 @@ public class LightReceiver : MonoBehaviour
     [Header("Visuals")]
     public Material inactiveMaterial;
     public Material activeMaterial;
+    public ProgressManager progressManager;     
 
     [Header("Events")]
     public UnityEvent OnActivated;
     public UnityEvent OnDeactivated;
-
     private bool isActivated = false;
+    private bool hasTriggeredActivate = false;
     private Renderer rend;
     private MaterialPropertyBlock propBlock;
-
+    public LightReceiverCombo lightReceiverCombo;
     public bool IsActivated => isActivated;
 
     // The color tag and visual color of the beam currently hitting this receiver.
@@ -63,8 +64,25 @@ public class LightReceiver : MonoBehaviour
         }
 
         if (isActivated)
+        {
             OnActivated.Invoke();
+            if (!hasTriggeredActivate)
+            {
+                if (progressManager != null)
+                {
+                    progressManager.Progress();
+                    hasTriggeredActivate = true;
+                }
+            }
+            if (lightReceiverCombo != null)
+            {
+                lightReceiverCombo.Active(this);
+            }
+        }
         else
-            OnDeactivated.Invoke();
+        {
+            OnDeactivated.Invoke();       
+            lightReceiverCombo.Unactive(this);     
+        }
     }
 }

@@ -186,21 +186,5 @@ public class ProjectionEmitter : MonoBehaviour
         decal.transform.position = hitPoint + hit.normal * 0.01f;
         decal.transform.rotation = collider.transform.rotation;
         decal.transform.localScale = new Vector3(distance, distance, 0.05f);
-
-        // beam.transform.position = start + direction * (length / 2f);
-        // beam.transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(90f, 0f, 0f);
-        // beam.transform.localScale = new Vector3(0.05f, length / 2f, 0.05f);
-
-        // Tint the beam segment to match this emitter's color.
-        // Both _BaseColor (URP standard) and _Color (legacy/custom shaders) are set
-        // so the color applies regardless of which property name the shader uses.
-        // var rend = beam.GetComponent<Renderer>();
-        // if (rend != null)
-        // {
-        //     propBlock.SetColor("_BaseColor", beamColor);
-        //     propBlock.SetColor("_Color", beamColor);
-        //     propBlock.SetColor("_EmissionColor", beamColor);
-        //     rend.SetPropertyBlock(propBlock);
-        // }
     }
 }
