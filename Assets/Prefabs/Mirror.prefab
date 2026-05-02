@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 3991229491859050844}
   - component: {fileID: 7745761335400962877}
   - component: {fileID: 7304359159009062578}
+  - component: {fileID: 6918146387358447251}
+  - component: {fileID: -2869426809070525847}
   m_Layer: 0
   m_Name: Mirror
   m_TagString: Mirror
@@ -128,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RotatableMirror
   angleStep: 45
   rotationSpeed: 8
-  rotationAxis: {x: 0, y: 1, z: 0}
+  canRotate: 1
 --- !u!114 &7304359159009062578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,3 +217,33 @@ MonoBehaviour:
   m_StartingInteractionStrengthFilters: []
   m_AutoFindParentInteractableInHierarchy: 0
   m_ParentInteractableObject: {fileID: 0}
+--- !u!114 &6918146387358447251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5327200827635182117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.17924517, b: 0.21570918, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &-2869426809070525847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5327200827635182117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75d10206e02e5db4b9610fbb2fd7dbf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MirrorOutline
