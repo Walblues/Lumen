@@ -48,7 +48,9 @@ public class CandleController : MonoBehaviour
     float distanceToCandle = Vector3.Distance(player.position, candle.transform.position);
     float distanceToDoor = Vector3.Distance(player.position, doorClose.transform.position);
 
-    Debug.Log($"Candle distance: {distanceToCandle}, Door distance: {distanceToDoor}, Snuffed: {hasSnuffed}");
+    if (!hasTriggedDoor) {
+        Debug.Log($"Candle distance: {distanceToCandle}, Door distance: {distanceToDoor}, Snuffed: {hasSnuffed}");
+    }
 
     if (!hasSnuffed && distanceToCandle <= candleActivationDistance)
     {
@@ -67,7 +69,9 @@ public class CandleController : MonoBehaviour
 
     private IEnumerator LoadSceneAfterDelay()
     {
+        Debug.Log("Waiting...");
         yield return new WaitForSeconds(sceneLoadDelay);
+        
         SceneManager.LoadScene(sceneToLoad);
     }
 }
