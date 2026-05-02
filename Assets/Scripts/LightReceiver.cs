@@ -8,7 +8,11 @@ public class LightReceiver : MonoBehaviour
     [Header("Visuals")]
     public Material inactiveMaterial;
     public Material activeMaterial;
-    public ProgressManager progressManager;     
+    public ProgressManager progressManager;
+
+    [Header("Activation")]
+    [Tooltip("Seconds the beam must hold on the receiver before it activates.")]
+    public float activationHoldTime = 0.2f;
 
     [Header("Events")]
     public UnityEvent OnActivated;
@@ -19,6 +23,11 @@ public class LightReceiver : MonoBehaviour
     private MaterialPropertyBlock propBlock;
     public LightReceiverCombo lightReceiverCombo;
     public bool IsActivated => isActivated;
+
+    private bool beamIsHitting = false;
+    private float holdTimer = 0f;
+    private string pendingColorTag = "";
+    private Color pendingBeamColor = Color.clear;
 
     // The color tag and visual color of the beam currently hitting this receiver.
     // Both are empty/clear when the receiver is inactive.
@@ -33,56 +42,86 @@ public class LightReceiver : MonoBehaviour
             rend.material = inactiveMaterial;
     }
 
+    void Update()
+    {
+        if (beamIsHitting && !isActivated)
+        {
+            holdTimer += Time.deltaTime;
+            if (holdTimer >= activationHoldTime)
+                CommitActivation(pendingColorTag, pendingBeamColor);
+        }
+    }
+
     // Called by LightEmitter every frame. colorTag and beamColor are optional so
     // existing plain SetActivated(false) call sites remain valid without changes.
     public void SetActivated(bool value, string colorTag = "", Color beamColor = default)
     {
-        bool colorChanged = value && (CurrentColorTag != colorTag);
-        if (isActivated == value && !colorChanged) return;
+        if (!value)
+        {
+            beamIsHitting = false;
+            holdTimer = 0f;
+            pendingColorTag = "";
+            pendingBeamColor = Color.clear;
 
-        isActivated = value;
-        CurrentColorTag = value ? colorTag : "";
-        CurrentBeamColor = value ? beamColor : Color.clear;
+            if (!isActivated) return;
+
+            isActivated = false;
+            CurrentColorTag = "";
+            CurrentBeamColor = Color.clear;
+
+            if (rend != null)
+            {
+                rend.material = inactiveMaterial;
+                rend.SetPropertyBlock(null);
+            }
+
+            OnDeactivated.Invoke();
+            lightReceiverCombo?.Unactive(this);
+            return;
+        }
+
+        // Beam is hitting — store pending color and start/continue the hold timer.
+        beamIsHitting = true;
+        pendingColorTag = colorTag;
+        pendingBeamColor = beamColor;
+
+        // If already active, handle a mid-flight color change immediately.
+        if (isActivated)
+        {
+            if (CurrentColorTag == colorTag) return;
+            CurrentColorTag = colorTag;
+            CurrentBeamColor = beamColor;
+            ApplyActiveVisuals(beamColor);
+        }
+        // Otherwise wait for Update() to count up the hold timer.
+    }
+
+    void CommitActivation(string colorTag, Color beamColor)
+    {
+        isActivated = true;
+        CurrentColorTag = colorTag;
+        CurrentBeamColor = beamColor;
 
         if (rend != null)
         {
-            rend.material = isActivated ? activeMaterial : inactiveMaterial;
-
-            if (isActivated)
-            {
-                // Tint the active material to match the beam's color.
-                propBlock.SetColor("_BaseColor", beamColor);
-                propBlock.SetColor("_Color", beamColor);
-                propBlock.SetColor("_EmissionColor", beamColor);
-                rend.SetPropertyBlock(propBlock);
-            }
-            else
-            {
-                // Clear the override so the inactive material renders unmodified.
-                rend.SetPropertyBlock(null);
-            }
+            rend.material = activeMaterial;
+            ApplyActiveVisuals(beamColor);
         }
 
-        if (isActivated)
+        OnActivated.Invoke();
+        if (!hasTriggeredActivate && progressManager != null)
         {
-            OnActivated.Invoke();
-            if (!hasTriggeredActivate)
-            {
-                if (progressManager != null)
-                {
-                    progressManager.Progress();
-                    hasTriggeredActivate = true;
-                }
-            }
-            if (lightReceiverCombo != null)
-            {
-                lightReceiverCombo.Active(this);
-            }
+            progressManager.Progress();
+            hasTriggeredActivate = true;
         }
-        else
-        {
-            OnDeactivated.Invoke();       
-            lightReceiverCombo.Unactive(this);     
-        }
+        lightReceiverCombo?.Active(this);
+    }
+
+    void ApplyActiveVisuals(Color beamColor)
+    {
+        propBlock.SetColor("_BaseColor", beamColor);
+        propBlock.SetColor("_Color", beamColor);
+        propBlock.SetColor("_EmissionColor", beamColor);
+        rend.SetPropertyBlock(propBlock);
     }
 }
