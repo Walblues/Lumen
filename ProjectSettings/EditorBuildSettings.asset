@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Intro Indoors.unity
     guid: 253c4651ff20b9b4f855b8865e3efe82
   - enabled: 1
+    path: Assets/CombinedScenes.unity
+    guid: a8ac11d9bc8419c409f01848c8b58a39
+  - enabled: 1
     path: Assets/Scenes/button puzzle test.unity
     guid: faac9227b69861141bba046d5dfda72f
   m_configObjects:
