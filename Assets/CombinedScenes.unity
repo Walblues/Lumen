@@ -1986,6 +1986,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2735455376641258377, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
+      propertyPath: soundFXManager
+      value: 
+      objectReference: {fileID: 522533112}
     - target: {fileID: 4535274451239455267, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4243,6 +4247,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2735455376641258377, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
+      propertyPath: soundFXManager
+      value: 
+      objectReference: {fileID: 522533112}
     - target: {fileID: 4535274451239455267, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5521,6 +5529,10 @@ PrefabInstance:
       propertyPath: targetAngle
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2735455376641258377, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
+      propertyPath: soundFXManager
+      value: 
+      objectReference: {fileID: 522533112}
     - target: {fileID: 4535274451239455267, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5598,6 +5610,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2735455376641258377, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
+      propertyPath: soundFXManager
+      value: 
+      objectReference: {fileID: 522533112}
     - target: {fileID: 4535274451239455267, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8584,6 +8600,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2735455376641258377, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
+      propertyPath: soundFXManager
+      value: 
+      objectReference: {fileID: 522533112}
     - target: {fileID: 4535274451239455267, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9349,6 +9369,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2735455376641258377, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
+      propertyPath: soundFXManager
+      value: 
+      objectReference: {fileID: 522533112}
     - target: {fileID: 4535274451239455267, guid: b9c8fc2ab0511254eb421579d4d6ae5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

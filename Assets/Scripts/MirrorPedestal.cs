@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 // Attach to the pedestal cylinder. Assign the mirror child object in the Inspector.
@@ -21,6 +22,13 @@ public class MirrorPedestal : MonoBehaviour
     public float retractDistance = 1f;
     [Tooltip("Speed in local units per second.")]
     public float animationSpeed = 3f;
+
+
+    [Header("Sound")]
+    public AudioClip retractSound;
+    public float soundVolume = 1f;
+    
+
 
     [Header("Initial State")]
     [Tooltip("Start with the mirror already retracted.")]
@@ -77,6 +85,7 @@ public class MirrorPedestal : MonoBehaviour
     public void Toggle()
     {
         if (!isRetractable) return;
+        SoundFXManager.Instance?.PlaySound(retractSound, transform, soundVolume);
         SetRetracted(!isRetracted);
     }
 

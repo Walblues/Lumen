@@ -283,6 +283,8 @@ MonoBehaviour:
   isRetractable: 1
   retractDistance: 1.2
   animationSpeed: 3
+  retractSound: {fileID: 8300000, guid: 186d82a291836164da5f99b53031fada, type: 3}
+  soundVolume: 0.5
   startRetracted: 0
 --- !u!1001 &5658828771871287476
 PrefabInstance:

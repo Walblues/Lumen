@@ -130,6 +130,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RotatableMirror
   angleStep: 45
   rotationSpeed: 8
+  soundFXManager: {fileID: 0}
+  rotateSound: {fileID: 8300000, guid: 2e56414899ccabf45bd2a35c1f650bc1, type: 3}
+  soundVolume: 0.5
   canRotate: 1
 --- !u!114 &7304359159009062578
 MonoBehaviour:

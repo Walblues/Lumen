@@ -14,6 +14,11 @@ public class RotatableMirror : MonoBehaviour
     public float rotationSpeed = 8f;
     [Header("Rotation")]
     
+    [Header("Sound")]
+    public AudioClip rotateSound;
+    public float soundVolume = 1f;
+
+
     [Tooltip("Uncheck to lock the mirror in place — RotateCW and RotateCCW will do nothing.")]
     public bool canRotate = true;
 
@@ -37,6 +42,7 @@ public class RotatableMirror : MonoBehaviour
     public void RotateCW()
     {
         if (!canRotate) return;
+        SoundFXManager.Instance?.PlaySound(rotateSound, transform, soundVolume);
         targetAngle -= angleStep;
         NormalizeAngle();
     }
@@ -44,6 +50,7 @@ public class RotatableMirror : MonoBehaviour
     public void RotateCCW()
     {
         if (!canRotate) return;
+        SoundFXManager.Instance?.PlaySound(rotateSound, transform, soundVolume);
         targetAngle += angleStep;
         NormalizeAngle();
     }
