@@ -9,7 +9,7 @@ public class LightEmitter : MonoBehaviour
     [Header("Beam Settings")]
     public GameObject beamPrefab;
     public int maxReflections = 18;
-    private float maxDistance = 10f;
+    private float maxDistance = 18f;
     [Tooltip("Small offset so the raycast doesn't hit the emitter's own collider.")]
     public float startOffset = 0.15f;
     [Tooltip("Local-space axis the beam shoots from. " +

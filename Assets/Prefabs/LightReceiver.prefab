@@ -129,9 +129,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LightReceiver
   inactiveMaterial: {fileID: 2100000, guid: ee7ffe035ee05ad4a9e73624096502c9, type: 2}
   activeMaterial: {fileID: 2100000, guid: 6adb4a209cc88664c99bbea13812b6d9, type: 2}
+  progressManager: {fileID: 0}
+  activationHoldTime: 0.5
   OnActivated:
     m_PersistentCalls:
       m_Calls: []
   OnDeactivated:
     m_PersistentCalls:
       m_Calls: []
+  lightReceiverCombo: {fileID: 0}
