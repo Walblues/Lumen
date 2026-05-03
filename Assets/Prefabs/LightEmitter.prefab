@@ -128,7 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightEmitter
   beamPrefab: {fileID: 3168786190127373748, guid: 3ff31907f91d6564d8c993066ea539ac, type: 3}
-  maxReflections: 10
-  maxDistance: 50
+  maxReflections: 12
   startOffset: 0.15
   emissionAxis: {x: 0, y: 1, z: 0}
+  colorTag: white
+  beamColor: {r: 1, g: 1, b: 1, a: 1}
+  isActive: 1
