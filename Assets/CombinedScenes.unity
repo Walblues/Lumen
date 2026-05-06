@@ -3366,6 +3366,10 @@ PrefabInstance:
       propertyPath: 'trigger2Indices.Array.data[3]'
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3123838404180092680, guid: 88b0f2876d3f9f5448350b3df1a49116, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 5942638688234054584, guid: 88b0f2876d3f9f5448350b3df1a49116, type: 3}
       propertyPath: m_Name
       value: Button Puzzle 4
@@ -3557,7 +3561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &555315510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3594,7 +3598,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 555315509}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10305,8 +10309,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5f35386ada5ca48bf3fabd2e246358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProgressManager
-  counter: 0
+  counter: 1
   lights:
+  - {fileID: 618687664362214393}
   - {fileID: 1349693732}
   - {fileID: 2026128145}
   - {fileID: 1815860290}

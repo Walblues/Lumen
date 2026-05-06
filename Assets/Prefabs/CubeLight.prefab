@@ -127,3 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CubeController
   unlitTexture: {fileID: 2100000, guid: 7c22349d47df38c4a8437514013c6587, type: 2}
   litTexture: {fileID: 2100000, guid: e1ea10c8b79b6ac40897b4535551c88a, type: 2}
+  greenTexture: {fileID: 0}

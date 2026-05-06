@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProgressManager : MonoBehaviour
 {
-    public int counter = 0;
+    public int counter = 1;
     public List<Light> lights = new List<Light>();
     public SoundFXManager soundManager;
     public AudioClip lightEnableSound;
@@ -13,6 +13,7 @@ public class ProgressManager : MonoBehaviour
     {
         Debug.Log("Counter incremented: " + counter);
         lights[counter].enabled = true;
+        lights[counter - 1].color = Color.green;
         soundManager.PlaySound(lightEnableSound, lights[counter].transform);
         counter++;
     }
