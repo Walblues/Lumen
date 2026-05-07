@@ -23,11 +23,19 @@ public class LightReceiverCombo : MonoBehaviour
     // existing plain SetActivated(false) call sites remain valid without changes.
     public void Active(LightReceiver lightReceiver)
     {
-        lightReceivers.Append(lightReceiver);
+        Debug.Log("Active. Light Receivers Count: " + lightReceivers.Count);
+        if (!lightReceivers.Contains(lightReceiver))
+        {
+            Debug.Log("Doesn't contain: " + lightReceiver);
+            lightReceivers.Add(lightReceiver);            
+        }
         if (lightReceivers.Count == 2)
         {
             if (!isActivated)
             {
+                Debug.Log("progressed " + lightReceivers.Count);
+                Debug.Log(lightReceivers[0]);
+                Debug.Log(lightReceivers[1]);
                 progressManager.Progress();
                 isActivated = true;
             }

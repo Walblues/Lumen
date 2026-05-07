@@ -3558,7 +3558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &555315510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3595,7 +3595,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 555315509}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4039,10 +4039,6 @@ PrefabInstance:
       value: Receiver Blue (Fin)
       objectReference: {fileID: 0}
     - target: {fileID: 1428289575160649275, guid: 6f99681a78e8b424fb58a270be41d8c5, type: 3}
-      propertyPath: progressManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1428289575160649275, guid: 6f99681a78e8b424fb58a270be41d8c5, type: 3}
       propertyPath: lightReceiverCombo
       value: 
       objectReference: {fileID: 1872950576}
@@ -4108,17 +4104,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9208959015118216448, guid: 6f99681a78e8b424fb58a270be41d8c5, type: 3}
   m_PrefabInstance: {fileID: 595522842}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &595522844 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1428289575160649275, guid: 6f99681a78e8b424fb58a270be41d8c5, type: 3}
-  m_PrefabInstance: {fileID: 595522842}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2de40f434a30124ba21e6c76e2124d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightReceiver
 --- !u!1001 &599305084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11235,9 +11220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightReceiverCombo
   progressManager: {fileID: 1607032434}
-  lightReceivers:
-  - {fileID: 595522844}
-  - {fileID: 2005570641}
+  lightReceivers: []
 --- !u!1 &1876081638
 GameObject:
   m_ObjectHideFlags: 0
@@ -12116,10 +12099,6 @@ PrefabInstance:
       value: Receiver Red (Fin)
       objectReference: {fileID: 0}
     - target: {fileID: 1428289575160649275, guid: 6f99681a78e8b424fb58a270be41d8c5, type: 3}
-      propertyPath: progressManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1428289575160649275, guid: 6f99681a78e8b424fb58a270be41d8c5, type: 3}
       propertyPath: lightReceiverCombo
       value: 
       objectReference: {fileID: 1872950576}
@@ -12180,17 +12159,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f99681a78e8b424fb58a270be41d8c5, type: 3}
---- !u!114 &2005570641 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1428289575160649275, guid: 6f99681a78e8b424fb58a270be41d8c5, type: 3}
-  m_PrefabInstance: {fileID: 2005570640}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2de40f434a30124ba21e6c76e2124d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightReceiver
 --- !u!1001 &2024694643
 PrefabInstance:
   m_ObjectHideFlags: 0
